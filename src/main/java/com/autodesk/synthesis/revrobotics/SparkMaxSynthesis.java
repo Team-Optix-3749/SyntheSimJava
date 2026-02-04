@@ -4,17 +4,24 @@ import java.util.ArrayList;
 
 import com.autodesk.synthesis.CANEncoder;
 import com.autodesk.synthesis.CANMotor;
-import com.revrobotics.CANSparkBase;
+// import com.revrobotics.CANSparkBase;
+import com.revrobotics.spark.SparkMax;
 import com.revrobotics.REVLibError;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.SparkAbsoluteEncoder;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.spark.SparkBase;
+// import com.revrobotics.RelativeEncoder;
+
 
 /**
  * CANSparkMax wrapper to add proper WPILib HALSim support.
  */
-public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
+public class SparkMaxSynthesis extends SparkMax {
 
     private CANMotor m_motor;
     public CANEncoder m_encoder;
-    private ArrayList<CANSparkMax> followers;
+    private ArrayList<SparkMax> followers;
 
     /**
      * Creates a new CANSparkMax, wrapped with simulation support.
@@ -25,12 +32,12 @@ public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
      *
      * See original documentation for more information https://codedocs.revrobotics.com/java/com/revrobotics/cansparkmax
      */
-    public CANSparkMax(int deviceId, MotorType motorType) {
+    public SparkMaxSynthesis(int deviceId, MotorType motorType) {
         super(deviceId, motorType);
 
         this.m_motor = new CANMotor("SYN CANSparkMax", deviceId, 0.0, false, 0.3);
         this.m_encoder = new CANEncoder("SYN CANSparkMax", deviceId);
-        this.followers = new ArrayList<CANSparkMax>();
+        this.followers = new ArrayList<SparkMax>();
     }
 
     /**
@@ -45,7 +52,7 @@ public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
     public void set(double percent) {
         super.set(percent);
         this.m_motor.setPercentOutput(percent);
-        for (CANSparkMax follower : this.followers) {
+        for (SparkMax follower : this.followers) {
             follower.set(percent);
         }
     }
@@ -66,13 +73,15 @@ public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
      *
      * @return A library error indicating failure or success
      */
-    @Override
-    public REVLibError setIdleMode(com.revrobotics.CANSparkBase.IdleMode mode) {
-        if (mode != null)
-            this.m_motor.setBrakeMode(mode.equals(com.revrobotics.CANSparkBase.IdleMode.kBrake));
 
-        return super.setIdleMode(mode);
-    }
+    // removed by aadi for now
+    // @Override
+    // public REVLibError setIdleMode(IdleMode mode) {
+    //     if (mode != null)
+    //         this.m_motor.setBrakeMode(mode.equals(IdleMode.kBrake));
+
+    //     return super.setIdleMode(mode);
+    // }
 
     /** 
      * Gets a simulation-supported SparkAbsoluteEncoder containing the position and velocity of the motor in fission.
@@ -81,12 +90,14 @@ public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
 
      * @return The simulation-supported SparkAbsoluteEncoder.
      */
-    public com.autodesk.synthesis.revrobotics.SparkAbsoluteEncoder getAbsoluteEncoderSim() {
-        return new SparkAbsoluteEncoder(super.getAbsoluteEncoder(), this.m_encoder);
+    public SparkAbsoluteEncoder getAbsoluteEncoderSim() {
+        // The REV library does not provide a constructor that accepts a real encoder and a CANEncoder,
+        // so return the real absolute encoder instance for now.
+        return super.getAbsoluteEncoder();
     }
 
-    public com.autodesk.synthesis.revrobotics.RelativeEncoder getEncoderSim() {
-        return new RelativeEncoder(super.getEncoder(), this.m_encoder);
+    public RelativeEncoder getEncoderSim() {
+        return super.getEncoder();
     }
 
     /**
@@ -94,7 +105,7 @@ public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
      *
      * @param f The new follower
      */
-    void newFollower(CANSparkMax f) {
+    void newFollower(SparkMax f) {
         this.followers.add(f);
     }
 
@@ -106,12 +117,14 @@ public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
      *
      * @return A library error indicating failure or success
      */
-    @Override
-    public REVLibError follow(CANSparkBase leader) {
-        REVLibError err = super.follow(leader);
-        if (leader instanceof CANSparkMax) {
-            ((CANSparkMax) leader).newFollower(this);
-        }
-        return err;
-    }
+
+    // removed by aadi for now
+    // @Override
+    // public REVLibError follow(SparkBase leader) {
+    //     REVLibError err = super.follow(leader);
+    //     if (leader instanceof SparkMaxSynthesis) {
+    //         ((SparkMaxSynthesis) leader).newFollower(this);
+    //     }
+    //     return err;
+    // }
 }
