@@ -10,7 +10,7 @@ import com.revrobotics.REVLibError;
 /**
  * CANSparkMax wrapper to add proper WPILib HALSim support.
  */
-public class CANSparkMax extends com.revrobotics.CANSparkMax {
+public class SparkMaxSynthesis extends com.revrobotics.CANSparkMax {
 
     private CANMotor m_motor;
     public CANEncoder m_encoder;

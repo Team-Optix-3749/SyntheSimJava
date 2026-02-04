@@ -3,7 +3,7 @@ package com.autodesk.synthesis.revrobotics;
 import com.autodesk.synthesis.CANEncoder;
 import com.revrobotics.REVLibError;
 
-public class RelativeEncoder implements com.revrobotics.RelativeEncoder {
+public class RelativeEncoderSynthesis implements com.revrobotics.RelativeEncoder {
 
     private com.revrobotics.RelativeEncoder m_original;
     private CANEncoder m_encoder;

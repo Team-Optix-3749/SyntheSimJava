@@ -8,7 +8,7 @@ import com.revrobotics.REVLibError;
 /**
  * SparkAbsoluteEncoder wrapper to add proper WPILib HALSim support.
  */
-public class SparkAbsoluteEncoder implements AbsoluteEncoder {
+public class SparkAbsoluteEncoderSynthesis implements AbsoluteEncoder {
     private CANEncoder simEncoder;
     private com.revrobotics.SparkAbsoluteEncoder realEncoder;
 
