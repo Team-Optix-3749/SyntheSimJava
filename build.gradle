@@ -39,7 +39,7 @@ repositories {
 
 def WPI_Version = '2026.2.1'
 def REV_Version = '2026.0.1'
-def CTRE_Version = '26.1.0'
+def CTRE_Version = '24.3.0'
 def KAUAI_Version = '2024.1.0'
 
 dependencies {

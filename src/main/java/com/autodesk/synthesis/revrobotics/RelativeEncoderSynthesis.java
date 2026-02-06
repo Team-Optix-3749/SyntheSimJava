@@ -2,6 +2,7 @@ package com.autodesk.synthesis.revrobotics;
 
 import com.autodesk.synthesis.CANEncoder;
 import com.revrobotics.REVLibError;
+import com.revrobotics.RelativeEncoder;
 
 public class RelativeEncoderSynthesis implements com.revrobotics.RelativeEncoder {
 
@@ -12,13 +13,13 @@ public class RelativeEncoderSynthesis implements com.revrobotics.RelativeEncoder
     private double m_velocityConversionFactor = 1.0;
     private double m_invertedFactor = 1.0;
 
-    public RelativeEncoder(com.revrobotics.RelativeEncoder original, CANEncoder encoder) {
+    public RelativeEncoderSynthesis(RelativeEncoder original, CANEncoder encoder) {
         m_original = original;
         m_encoder = encoder;
 
-        m_positionConversionFactor = m_original.getPositionConversionFactor();
-        m_velocityConversionFactor = m_original.getVelocityConversionFactor();
-        m_invertedFactor = m_original.getInverted() ? -1.0 : 1.0;
+        // m_positionConversionFactor = m_original.getPositionConversionFactor();
+        // m_velocityConversionFactor = m_original.getVelocityConversionFactor();
+        // m_invertedFactor = m_original.getInverted() ? -1.0 : 1.0;
     }
 
     @Override
@@ -37,60 +38,60 @@ public class RelativeEncoderSynthesis implements com.revrobotics.RelativeEncoder
         return REVLibError.kOk;
     }
 
-    @Override
+    // @Override
     public REVLibError setPositionConversionFactor(double factor) {
         m_positionConversionFactor = factor;
         return REVLibError.kOk;
     }
 
-    @Override
+    // @Override
     public REVLibError setVelocityConversionFactor(double factor) {
         m_velocityConversionFactor = factor;
         return REVLibError.kOk;
     }
 
-    @Override
+    // @Override
     public double getPositionConversionFactor() {
         return m_positionConversionFactor;
     }
 
-    @Override
+    // @Override
     public double getVelocityConversionFactor() {
         return m_velocityConversionFactor;
     }
 
-    @Override
-    public REVLibError setAverageDepth(int depth) {
-        return m_original.setAverageDepth(depth);
-    }
+    // // @Override
+    // public REVLibError setAverageDepth(int depth) {
+    //     return m_original.setAverageDepth(depth);
+    // }
 
-    @Override
-    public int getAverageDepth() {
-        return m_original.getAverageDepth();
-    }
+    // // @Override
+    // public int getAverageDepth() {
+    //     return m_original.getAverageDepth();
+    // }
 
-    @Override
-    public REVLibError setMeasurementPeriod(int period_ms) {
-        return m_original.setMeasurementPeriod(period_ms);
-    }
+    // // @Override
+    // public REVLibError setMeasurementPeriod(int period_ms) {
+    //     return m_original.setMeasurementPeriod(period_ms);
+    // }
 
-    @Override
-    public int getMeasurementPeriod() {
-        return m_original.getMeasurementPeriod();
-    }
+    // // @Override
+    // public int getMeasurementPeriod() {
+    //     return m_original.getMeasurementPeriod();
+    // }
 
-    @Override
+    // @Override
     public int getCountsPerRevolution() {
         return 1;
     }
 
-    @Override
+    // @Override
     public REVLibError setInverted(boolean inverted) {
         m_invertedFactor = inverted ? -1.0 : 1.0;
         return REVLibError.kOk;
     }
 
-    @Override
+    // @Override
     public boolean getInverted() {
         return m_invertedFactor < 0.0;
     }
